@@ -5,4 +5,6 @@ class Constants {
   static const String appAuthor = '';
 static const leafDecorPath = "assets/images/leaf_decor.png";
 static const menuPath = "assets/images/menu.svg";
+static const lotusPath = "assets/images/lotus_logo.png";
+
 }

@@ -20,6 +20,16 @@ class AppTheme {
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
       backgroundColor: AppPalette.gradient2,
     ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ButtonStyle(
+        backgroundColor: const MaterialStatePropertyAll(AppPalette.gradient2),
+        shape: MaterialStatePropertyAll(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+      ),
+    ),
     appBarTheme: const AppBarTheme(
       backgroundColor: AppPalette.backgroundColor,
       elevation: 0,
