@@ -35,6 +35,9 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  flutter_bloc: ^8.1.5
+  equatable: ^2.0.5
+  flutter_svg: ^2.0.10+1
 
 dev_dependencies:
   flutter_test:
@@ -88,3 +91,18 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+  assets:
+    - assets/
+    - assets/fonts/
+    - pubspec.yaml
+    - assets/images/
+    - assets/fonts/Alegreya_Sans/
+  fonts:
+    - family: AlegreyaSans
+      fonts:
+        - asset: assets/fonts/Alegreya_Sans/AlegreyaSans-Regular.ttf
+        - asset: assets/fonts/Alegreya_Sans/AlegreyaSans-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Alegreya_Sans/AlegreyaSans-Light.ttf
+          weight: 300
+
