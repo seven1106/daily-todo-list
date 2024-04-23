@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:daily_todo_list/blocs/bloc_exports.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
@@ -7,26 +8,27 @@ import '../../models/task.dart';
 part 'tasks_event.dart';
 part 'tasks_state.dart';
 
-class TasksBloc extends Bloc<TasksEvent, TasksState> {
+class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
   TasksBloc() : super(TasksState()) {
     on<AddTask>(_addTask);
     on<UpdateTask>(_updateTask);
     on<DeleteTask>(_deleteTask);
   }
   _addTask(AddTask event, Emitter<TasksState> emit) {
-    final newTask = TaskModel(title: event.task.title);
-    final updatedTasks = List<TaskModel>.from(state.allTasks)..add(newTask);
-    emit(TasksState(allTasks: updatedTasks));
+    emit(TasksState(allTasks: List.from(state.allTasks)..add(event.task)));
   }
+
   _updateTask(UpdateTask event, Emitter<TasksState> emit) {
-    final updatedTasks = state.allTasks.map((task) {
-      if (task == event.task) {
-        return event.task;
-      }
-      return task;
-    }).toList();
-    emit(TasksState(allTasks: updatedTasks));
+    final task = event.task;
+    final state = this.state;
+    final index = state.allTasks.indexOf(task);
+    List<TaskModel> allTasks = List.from(state.allTasks)..remove(task);
+    task.isDone == false
+        ? allTasks.insert(index, task.copyWith(isDone: true))
+        : allTasks.insert(index, task.copyWith(isDone: false));
+    emit(TasksState(allTasks: allTasks));
   }
+
   _deleteTask(DeleteTask event, Emitter<TasksState> emit) {
     final updatedTasks = state.allTasks.map((task) {
       if (task == event.task) {
@@ -35,5 +37,15 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
       return task;
     }).toList();
     emit(TasksState(allTasks: updatedTasks));
+  }
+
+  @override
+  TasksState? fromJson(Map<String, dynamic> json) {
+    return TasksState.fromMap(json);
+  }
+
+  @override
+  Map<String, dynamic>? toJson(TasksState state) {
+    return state.toMap();
   }
 }

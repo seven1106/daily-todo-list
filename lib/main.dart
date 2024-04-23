@@ -1,11 +1,18 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
+import 'package:path_provider/path_provider.dart';
+import 'dart:core';
 import 'blocs/bloc_exports.dart';
 import 'config/theme/theme.dart';
 import 'screens/main_screen.dart';
 
-void main() {
-  BlocOverrides.runZoned(() => runApp(const MyApp()));
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  HydratedBloc.storage = await HydratedStorage.build(
+    storageDirectory:
+        kIsWeb ? HydratedStorage.webStorageDirectory : await getTemporaryDirectory(),
+  );
+    runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {

@@ -1,4 +1,5 @@
 import 'package:daily_todo_list/models/task.dart';
+import 'package:daily_todo_list/services/guid_gen.dart';
 import 'package:flutter/material.dart';
 
 import '../blocs/bloc_exports.dart';
@@ -49,7 +50,11 @@ class _CreateNewTodoListState extends State<CreateNewTodoList> {
               GradientBtn(
                   buttonText: 'Add task',
                   onPressed: () {
-                    var task = TaskModel(title: taskTitleController.text, isDone: false);
+                    var task = TaskModel(
+                      id: GUIDGen.generate(),
+                      title: taskTitleController.text,
+                      isDone: false,
+                    );
                     BlocProvider.of<TasksBloc>(context).add(AddTask(
                       task: task,
                     ));
