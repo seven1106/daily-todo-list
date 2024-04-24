@@ -1,4 +1,5 @@
 import 'package:daily_todo_list/blocs/bloc_exports.dart';
+import 'package:daily_todo_list/widgets/task_tile.dart';
 import 'package:flutter/material.dart';
 
 import '../blocs/tasks_bloc/tasks_bloc.dart';
@@ -15,29 +16,11 @@ class TasksList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: ListView.builder(itemBuilder: (context, index) {
-        var task = tasks[index];
-        return ListTile(
-          title: Text(tasks[index].title),
-          trailing: Checkbox(
-            value: tasks[index].isDone,
-            onChanged: (value) {
-              context.read<TasksBloc>().add(
-                UpdateTask(
-                  task: task,
-                ),
-              );
-            },
-          ),
-          onLongPress: () {
-            context.read<TasksBloc>().add(
-              DeleteTask(
-                task: task,
-              ),
-            );
-          },
-        );
-      },
+      child: ListView.builder(
+        itemBuilder: (context, index) {
+          var task = tasks[index];
+          return TasksTile(task: task);
+        },
         itemCount: tasks.length,
         shrinkWrap: true,
       ),

@@ -16,7 +16,13 @@ class AppTheme {
     textTheme: ThemeData.dark().textTheme.apply(
           fontFamily: 'AlegreyaSans',
         ),
-
+    pageTransitionsTheme: const PageTransitionsTheme(builders: {
+      TargetPlatform.android: NoTransitionsOnPlatform(),
+      TargetPlatform.iOS: NoTransitionsOnPlatform(),
+      TargetPlatform.linux: NoTransitionsOnPlatform(),
+      TargetPlatform.macOS: NoTransitionsOnPlatform(),
+      TargetPlatform.windows: NoTransitionsOnPlatform(),
+    }),
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
       backgroundColor: AppPalette.gradient2,
     ),
@@ -40,7 +46,6 @@ class AppTheme {
       ),
       side: BorderSide.none,
     ),
-
     inputDecorationTheme: InputDecorationTheme(
       contentPadding: const EdgeInsets.all(27),
       border: _border(),
@@ -50,3 +55,31 @@ class AppTheme {
     ),
   );
 }
+
+class NoTransitionsOnPlatform extends PageTransitionsBuilder {
+  const NoTransitionsOnPlatform();
+
+  @override
+  Widget buildTransitions<T>(
+      PageRoute<T> route,
+      BuildContext context,
+      Animation<double> animation,
+      Animation<double> secondaryAnimation,
+      Widget child,
+      ) {
+    // if (ModalRoute.of(context)!.isFirst) {
+    //   return child;
+    // }
+
+    // Thực hiện slide animation
+    return child;
+    //   SlideTransition(
+    //   position: Tween<Offset>(
+    //     begin: const Offset(1.0, 0.0),
+    //     end: Offset.zero,
+    //   ).animate(animation),
+    //   child: child,
+    // );
+  }
+}
+

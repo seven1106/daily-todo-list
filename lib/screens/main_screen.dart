@@ -1,4 +1,5 @@
 import 'package:daily_todo_list/screens/create_new_todo_list.dart';
+import 'package:daily_todo_list/screens/main_drawer.dart';
 import 'package:daily_todo_list/widgets/gradient_btn.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -10,9 +11,14 @@ import '../widgets/tasks_list.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({Key? key}) : super(key: key);
+  static const id = 'MainScreen';
 
   void _addTask(BuildContext context) {
-    Navigator.push(context, CreateNewTodoList.route());
+    Navigator.pushNamed(context, CreateNewTodoList.id);
+  }
+
+  void displayEndDrawer(BuildContext context) {
+    Scaffold.of(context).openEndDrawer();
   }
 
   @override
@@ -21,19 +27,25 @@ class MainScreen extends StatelessWidget {
       builder: (context, state) {
         List<TaskModel> tasksList = state.allTasks;
         return Scaffold(
+          endDrawer: const MainDrawer(screenId: MainScreen.id),
           appBar: AppBar(
             title: const Text('Main Screen'),
             actions: [
-              IconButton(
-                onPressed: () {},
-                icon: SvgPicture.asset(Constants.menuPath, semanticsLabel: 'menu'),
-              )
+              Builder(builder: (context) {
+                return IconButton(
+                  icon: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                    child: SvgPicture.asset(Constants.menuPath, semanticsLabel: 'menu'),
+                  ),
+                  onPressed: () => displayEndDrawer(context),
+                );
+              })
             ],
           ),
           body: tasksList.isEmpty
               ? Container(
-            padding: const EdgeInsets.only(bottom: 100, left: 20, right: 20),
-                child: Center(
+                  padding: const EdgeInsets.only(bottom: 100, left: 20, right: 20),
+                  child: Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -55,11 +67,10 @@ class MainScreen extends StatelessWidget {
                             _addTask(context);
                           },
                         ),
-
                       ],
                     ),
                   ),
-              )
+                )
               : Stack(
                   children: [
                     Column(
@@ -81,14 +92,15 @@ class MainScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-
-          floatingActionButton: tasksList.isNotEmpty ? FloatingActionButton(
-            onPressed: () {
-              _addTask(context);
-            },
-            tooltip: 'Add Task',
-            child: const Icon(Icons.add),
-          ) : null,
+          floatingActionButton: tasksList.isNotEmpty
+              ? FloatingActionButton(
+                  onPressed: () {
+                    _addTask(context);
+                  },
+                  tooltip: 'Add Task',
+                  child: const Icon(Icons.add),
+                )
+              : null,
         );
       },
     );

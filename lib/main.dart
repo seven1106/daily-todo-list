@@ -1,3 +1,4 @@
+import 'package:daily_todo_list/services/app_router.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -12,7 +13,7 @@ Future<void> main() async {
     storageDirectory:
         kIsWeb ? HydratedStorage.webStorageDirectory : await getTemporaryDirectory(),
   );
-    runApp(const MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: AppTheme.darkThemeMode,
         home: const MainScreen(),
+        onGenerateRoute: AppRouter.onGenerateRoute,
       ),
     );
   }

@@ -7,9 +7,7 @@ import '../blocs/tasks_bloc/tasks_bloc.dart';
 import '../widgets/gradient_btn.dart';
 
 class CreateNewTodoList extends StatefulWidget {
-  static route() => MaterialPageRoute(
-        builder: (context) => const CreateNewTodoList(),
-      );
+  static const id = 'create_new_todo_list';
   const CreateNewTodoList({Key? key}) : super(key: key);
 
   @override
