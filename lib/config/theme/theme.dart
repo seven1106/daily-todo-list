@@ -10,6 +10,12 @@ class AppTheme {
         ),
         borderRadius: BorderRadius.circular(10),
       );
+  static _underBorder([Color color = AppPalette.borderColor]) => UnderlineInputBorder(
+        borderSide: BorderSide(
+          color: color,
+          width: 2,
+        ),
+      );
 
   static final darkThemeMode = ThemeData.dark().copyWith(
     scaffoldBackgroundColor: AppPalette.backgroundColor,
@@ -24,7 +30,17 @@ class AppTheme {
       TargetPlatform.windows: NoTransitionsOnPlatform(),
     }),
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
-      backgroundColor: AppPalette.gradient2,
+      backgroundColor: AppPalette.gradient5,
+      foregroundColor: AppPalette.backgroundColor,
+      sizeConstraints: BoxConstraints.tightFor(
+        width: 60,
+        height: 60,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(50),
+        ),
+      ),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
@@ -47,10 +63,10 @@ class AppTheme {
       side: BorderSide.none,
     ),
     inputDecorationTheme: InputDecorationTheme(
-      contentPadding: const EdgeInsets.all(27),
-      border: _border(),
-      enabledBorder: _border(),
-      focusedBorder: _border(AppPalette.gradient2),
+      // contentPadding: const EdgeInsets.all(27),
+      border: _border(AppPalette.gradient2),
+      enabledBorder: _underBorder(AppPalette.gradient3),
+      focusedBorder: _underBorder(AppPalette.gradient5),
       errorBorder: _border(AppPalette.errorColor),
     ),
   );

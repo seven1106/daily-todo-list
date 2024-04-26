@@ -1,7 +1,6 @@
 part of 'tasks_bloc.dart';
 
-@immutable
-sealed class TasksEvent extends Equatable {
+class TasksEvent extends Equatable {
   const TasksEvent();
   @override
   List<Object?> get props => [];

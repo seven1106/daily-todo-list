@@ -1,3 +1,4 @@
+import 'package:daily_todo_list/config/theme/app_palette.dart';
 import 'package:daily_todo_list/screens/main_screen.dart';
 import 'package:daily_todo_list/screens/bin_screen.dart';
 import 'package:flutter/material.dart';
@@ -18,8 +19,7 @@ class MainDrawer extends StatelessWidget {
           child: Column(
             children: [
               const DrawerHeader(
-                decoration: BoxDecoration(),
-                child: Text('Daily Todo List', style: TextStyle(fontSize: 24)),
+                child: Text('Daily Keeper', style: TextStyle(fontSize: 24, color: AppPalette.titleColor), textAlign: TextAlign.left,),
               ),
               ListTile(
                 title: const Text('Main'),

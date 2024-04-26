@@ -1,15 +1,12 @@
-import 'package:bloc/bloc.dart';
 import 'package:daily_todo_list/blocs/bloc_exports.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
-
 import '../../models/task.dart';
 
 part 'tasks_event.dart';
 part 'tasks_state.dart';
 
 class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
-  TasksBloc() : super(TasksState()) {
+  TasksBloc() : super(const TasksState()) {
     on<AddTask>(_addTask);
     on<UpdateTask>(_updateTask);
     on<DeleteTask>(_deleteTask);

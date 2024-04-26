@@ -13,7 +13,7 @@ class MainScreen extends StatelessWidget {
   const MainScreen({Key? key}) : super(key: key);
   static const id = 'MainScreen';
 
-  void _addTask(BuildContext context) {
+  void _navigateToCreateToDo(BuildContext context) {
     Navigator.pushNamed(context, CreateNewTodoList.id);
   }
 
@@ -29,7 +29,7 @@ class MainScreen extends StatelessWidget {
         return Scaffold(
           endDrawer: const MainDrawer(screenId: MainScreen.id),
           appBar: AppBar(
-            title: const Text('Main Screen'),
+            title: const Text(Constants.appName),
             actions: [
               Builder(builder: (context) {
                 return IconButton(
@@ -64,7 +64,7 @@ class MainScreen extends StatelessWidget {
                         GradientBtn(
                           buttonText: 'Add new to-do list for today!',
                           onPressed: () {
-                            _addTask(context);
+                            _navigateToCreateToDo(context);
                           },
                         ),
                       ],
@@ -95,7 +95,7 @@ class MainScreen extends StatelessWidget {
           floatingActionButton: tasksList.isNotEmpty
               ? FloatingActionButton(
                   onPressed: () {
-                    _addTask(context);
+                    _navigateToCreateToDo(context);
                   },
                   tooltip: 'Add Task',
                   child: const Icon(Icons.add),

@@ -1,8 +1,6 @@
-
 import 'package:daily_todo_list/blocs/bloc_exports.dart';
 import 'package:flutter/material.dart';
 
-import '../blocs/tasks_bloc/tasks_bloc.dart';
 import '../models/task.dart';
 
 class TasksTile extends StatelessWidget {
@@ -20,22 +18,23 @@ class TasksTile extends StatelessWidget {
           style: task.isDone!
               ? const TextStyle(decoration: TextDecoration.lineThrough)
               : const TextStyle()),
-      trailing: Checkbox(
+      trailing: task.isDeleted == false
+          ? Checkbox(
         value: task.isDone,
         onChanged: (value) {
-          context.read<TasksBloc>().add(
-            UpdateTask(
-              task: task,
-            ),
-          );
-        },
-      ),
+                context.read<TasksBloc>().add(
+                      UpdateTask(
+                        task: task,
+                      ),
+                    );
+              }
+      ): null,
       onLongPress: () {
         context.read<TasksBloc>().add(
-          RemoveTask(
-            task: task,
-          ),
-        );
+              RemoveTask(
+                task: task,
+              ),
+            );
       },
     );
   }
