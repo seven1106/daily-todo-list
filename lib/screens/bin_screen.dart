@@ -4,7 +4,6 @@ import 'package:flutter_svg/svg.dart';
 import '../blocs/bloc_exports.dart';
 import '../core/constants/constants.dart';
 import '../models/task.dart';
-import '../widgets/tasks_list.dart';
 import 'main_drawer.dart';
 
 class BinScreen extends StatelessWidget {
@@ -46,7 +45,7 @@ class BinScreen extends StatelessWidget {
                   style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
                 ),
               ),
-              TasksList(tasks: removedTasks),
+              // TasksList(tasks: removedTasks),
             ],
           ),
           Positioned(

@@ -64,4 +64,12 @@ class ToDoListModel extends Equatable {
       isDeleted: map['isDeleted'] as bool,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'tasks': tasks.map((task) => task.toJson()).toList(),
+    };
+  }
 }

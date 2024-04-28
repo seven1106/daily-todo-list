@@ -46,6 +46,14 @@ class TaskModel extends Equatable {
       isDeleted: map['isDeleted'] as bool,
     );
   }
+  Map<String, dynamic> toJson() {
+    return {
+      'title': title,
+      'id': id,
+      'isDone': isDone,
+      'isDeleted': isDeleted,
+    };
+  }
 
   @override
   List<Object?> get props => [

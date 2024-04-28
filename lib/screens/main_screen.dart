@@ -1,3 +1,4 @@
+import 'package:daily_todo_list/models/day.dart';
 import 'package:daily_todo_list/screens/create_new_todo_list.dart';
 import 'package:daily_todo_list/screens/main_drawer.dart';
 import 'package:daily_todo_list/widgets/gradient_btn.dart';
@@ -5,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../blocs/bloc_exports.dart';
+import '../blocs/day_bloc/day_bloc.dart';
 import '../core/constants/constants.dart';
-import '../models/task.dart';
 import '../widgets/tasks_list.dart';
 
 class MainScreen extends StatelessWidget {
@@ -23,9 +24,9 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TasksBloc, TasksState>(
+    return BlocBuilder<DayBloc, DayState>(
       builder: (context, state) {
-        List<TaskModel> tasksList = state.allTasks;
+        List<DayModel> daysList = state.allDays;
         return Scaffold(
           endDrawer: const MainDrawer(screenId: MainScreen.id),
           appBar: AppBar(
@@ -42,7 +43,7 @@ class MainScreen extends StatelessWidget {
               })
             ],
           ),
-          body: tasksList.isEmpty
+          body: daysList.isEmpty
               ? Container(
                   padding: const EdgeInsets.only(bottom: 100, left: 20, right: 20),
                   child: Center(
@@ -76,13 +77,8 @@ class MainScreen extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Chip(
-                          label: Text(
-                            'Today:',
-                            style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        TasksList(tasks: tasksList),
+
+                        TasksList(tasks: daysList),
                       ],
                     ),
                     Positioned(
@@ -92,7 +88,7 @@ class MainScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-          floatingActionButton: tasksList.isNotEmpty
+          floatingActionButton: daysList.isNotEmpty
               ? FloatingActionButton(
                   onPressed: () {
                     _navigateToCreateToDo(context);

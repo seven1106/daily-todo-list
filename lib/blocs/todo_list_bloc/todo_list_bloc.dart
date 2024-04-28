@@ -5,8 +5,8 @@ import '../bloc_exports.dart';
 part 'todo_list_event.dart';
 part 'todo_list_state.dart';
 
-class TodoListBloc extends HydratedBloc<TodoListEvent, TodoListState>  {
-  TodoListBloc() : super(const TodoListState()){
+class TodoListBloc extends HydratedBloc<TodoListEvent, TodoListState> {
+  TodoListBloc() : super(const TodoListState()) {
     on<AddTodoList>(_addTodoList);
     on<UpdateTodoList>(_updateTodoList);
     on<DeleteTodoList>(_deleteTodoList);
@@ -17,6 +17,7 @@ class TodoListBloc extends HydratedBloc<TodoListEvent, TodoListState>  {
   TodoListState? fromJson(Map<String, dynamic> json) {
     return TodoListState.fromMap(json);
   }
+
   void _addTodoList(AddTodoList event, Emitter<TodoListState> emit) {
     emit(TodoListState(allTodoList: List.from(state.allTodoList)..add(event.todoList)));
   }
@@ -30,10 +31,13 @@ class TodoListBloc extends HydratedBloc<TodoListEvent, TodoListState>  {
         : allTodoList.insert(index, todoList.copyWith(isDone: false));
     emit(TodoListState(allTodoList: allTodoList));
   }
+
   void _deleteTodoList(DeleteTodoList event, Emitter<TodoListState> emit) {
     final state = this.state;
-    emit(TodoListState(removedTodoList: List.from(state.removedTodoList)..remove(event.todoList)));
+    emit(TodoListState(
+        removedTodoList: List.from(state.removedTodoList)..remove(event.todoList)));
   }
+
   void _removeTodoList(RemoveTodoList event, Emitter<TodoListState> emit) {
     final state = this.state;
     emit(
@@ -49,6 +53,4 @@ class TodoListBloc extends HydratedBloc<TodoListEvent, TodoListState>  {
   Map<String, dynamic>? toJson(TodoListState state) {
     return state.toMap();
   }
-
-
 }

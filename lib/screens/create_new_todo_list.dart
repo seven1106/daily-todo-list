@@ -1,12 +1,12 @@
 import 'package:daily_todo_list/models/task.dart';
 import 'package:daily_todo_list/services/guid_gen.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../blocs/bloc_exports.dart';
-import '../blocs/tasks_bloc/tasks_bloc.dart';
-import '../models/day.dart';
+import '../blocs/day_bloc/day_bloc.dart';
+import '../blocs/todo_list_bloc/todo_list_bloc.dart';
 import '../models/todo_list.dart';
-import '../widgets/gradient_btn.dart';
 
 class CreateNewTodoList extends StatefulWidget {
   static const id = 'create_new_todo_list';
@@ -27,12 +27,7 @@ class _CreateNewTodoListState extends State<CreateNewTodoList> {
     super.dispose();
   }
 
-  void _addTask(BuildContext context) {
-    var task = TaskModel(
-      id: GUIDGen.generate(),
-      title: taskTitleController.text,
-      isDone: false,
-    );
+  void _addTask(BuildContext context) async {
     var tasks = allTasksController.map((e) {
       return TaskModel(
         id: GUIDGen.generate(),
@@ -45,23 +40,25 @@ class _CreateNewTodoListState extends State<CreateNewTodoList> {
       title: taskTitleController.text,
       tasks: tasks,
     );
-    var day = DayModel(
-      id: GUIDGen.generate(),
-      todoList: [todoList.id],
-      noteListId: [],
-      createdAt: DateTime.now(),
-    );
-    BlocProvider.of<TasksBloc>(context).add(AddTask(
-      task: task,
+    print(todoList);
+    String today = DateFormat().add_yMMMd().format(DateTime.now());
+    BlocProvider.of<TodoListBloc>(context).add(AddTodoList(
+      todoList: todoList,
+    ));
+    BlocProvider.of<DayBloc>(context).add(AddTodoListDay(
+      id: today,
+      todoList: todoList,
     ));
     Navigator.pop(context);
   }
+
   void generateTextField() {
     TextEditingController controller = TextEditingController();
     setState(() {
       allTasksController.add(controller);
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TasksBloc, TasksState>(
@@ -119,7 +116,6 @@ class _CreateNewTodoListState extends State<CreateNewTodoList> {
               },
               tooltip: 'Add Task',
               child: const Icon(Icons.add),
-
             ),
           ),
         );
@@ -142,10 +138,9 @@ class _CreateNewTodoListState extends State<CreateNewTodoList> {
             child: TextFormField(
               style: const TextStyle(fontSize: 20),
               controller: controller,
-              decoration:  InputDecoration(
+              decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: 'Task ${index + 1}',
-
               ),
             ),
           ),
@@ -155,12 +150,10 @@ class _CreateNewTodoListState extends State<CreateNewTodoList> {
                 allTasksController.removeAt(index);
               });
             },
-            icon:  Icon(Icons.delete_outline, color: Colors.red[400]),
+            icon: Icon(Icons.delete_outline, color: Colors.red[400]),
           ),
         ],
       ),
     );
   }
-
-
 }
