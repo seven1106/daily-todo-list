@@ -1,3 +1,4 @@
+import 'package:daily_todo_list/core/utills/show_snack_bar.dart';
 import 'package:daily_todo_list/models/task.dart';
 import 'package:daily_todo_list/services/guid_gen.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +6,6 @@ import 'package:intl/intl.dart';
 
 import '../blocs/bloc_exports.dart';
 import '../blocs/day_bloc/day_bloc.dart';
-import '../blocs/todo_list_bloc/todo_list_bloc.dart';
 import '../models/todo_list.dart';
 
 class CreateNewTodoList extends StatefulWidget {
@@ -18,16 +18,23 @@ class CreateNewTodoList extends StatefulWidget {
 
 class _CreateNewTodoListState extends State<CreateNewTodoList> {
   TextEditingController taskTitleController = TextEditingController();
+  TextEditingController noteController = TextEditingController();
   TextEditingController taskController = TextEditingController();
   List allTasksController = [];
+  String todoId = GUIDGen.generate();
   @override
   void dispose() {
     taskTitleController.dispose();
+    noteController.dispose();
     taskController.dispose();
     super.dispose();
   }
 
   void _addTask(BuildContext context) async {
+    if (taskTitleController.text.isEmpty) {
+      showSnackBar(context, 'Title cannot be empty');
+      return;
+    }
     var tasks = allTasksController.map((e) {
       return TaskModel(
         id: GUIDGen.generate(),
@@ -36,15 +43,15 @@ class _CreateNewTodoListState extends State<CreateNewTodoList> {
       );
     }).toList();
     var todoList = ToDoListModel(
-      id: GUIDGen.generate(),
+      id: todoId,
       title: taskTitleController.text,
+      note: noteController.text,
       tasks: tasks,
     );
-    print(todoList);
     String today = DateFormat().add_yMMMd().format(DateTime.now());
-    BlocProvider.of<TodoListBloc>(context).add(AddTodoList(
-      todoList: todoList,
-    ));
+    // BlocProvider.of<TodoListBloc>(context).add(AddTodoList(
+    //   todoList: todoList,
+    // ));
     BlocProvider.of<DayBloc>(context).add(AddTodoListDay(
       id: today,
       todoList: todoList,
@@ -61,65 +68,76 @@ class _CreateNewTodoListState extends State<CreateNewTodoList> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TasksBloc, TasksState>(
-      builder: (context, state) {
-        return SafeArea(
-          child: Scaffold(
-            appBar: AppBar(
-              title: const Text('New Todo List', style: TextStyle(fontSize: 25)),
-              actions: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: IconButton(
-                    icon: const Icon(Icons.check, size: 30, color: Colors.greenAccent),
-                    onPressed: () {
-                      _addTask(context);
-                    },
-                  ),
-                ),
-              ],
-            ),
-            body: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    style: const TextStyle(fontSize: 30),
-                    autofocus: true,
-                    controller: taskTitleController,
-                    decoration: const InputDecoration(
-                      border: InputBorder.none,
-                      hintText: 'Title',
-                      hintStyle: TextStyle(fontSize: 30),
-                    ),
-                    onFieldSubmitted: (value) {
-                      generateTextField();
-                    },
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                        padding: const EdgeInsets.only(top: 10, bottom: 10),
-                        itemCount: allTasksController.length,
-                        itemBuilder: (context, index) {
-                          return getTextField(index, allTasksController[index]);
-                        }),
-                  ),
-                  const SizedBox(height: 20),
-                ],
-              ),
-            ),
-            floatingActionButton: FloatingActionButton(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('New Todo List', style: TextStyle(fontSize: 25)),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: IconButton(
+              icon: const Icon(Icons.check, size: 30, color: Colors.greenAccent),
               onPressed: () {
-                generateTextField();
+                _addTask(context);
               },
-              tooltip: 'Add Task',
-              child: const Icon(Icons.add),
             ),
           ),
-        );
-      },
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Date: ${DateFormat().add_yMMMd().format(DateTime.now())}',
+              style: const TextStyle(fontSize: 30),
+            ),
+            const SizedBox(height: 15),
+            TextFormField(
+              style: const TextStyle(fontSize: 30),
+              autofocus: true,
+              controller: taskTitleController,
+              decoration: const InputDecoration(
+                border: InputBorder.none,
+                hintText: 'Title',
+                hintStyle: TextStyle(fontSize: 30),
+              ),
+              onFieldSubmitted: (value) {
+                generateTextField();
+              },
+            ),
+            const SizedBox(height: 20),
+            TextFormField(
+              style: const TextStyle(fontSize: 25),
+              controller: noteController,
+              decoration: const InputDecoration(
+                border: InputBorder.none,
+                hintText: 'note (optional)',
+                hintStyle: TextStyle(fontSize: 25),
+              ),
+              onFieldSubmitted: (value) {
+                generateTextField();
+              },
+            ),
+            Expanded(
+              child: ListView.builder(
+                  padding: const EdgeInsets.only(top: 10, bottom: 10),
+                  itemCount: allTasksController.length,
+                  itemBuilder: (context, index) {
+                    return getTextField(index, allTasksController[index]);
+                  }),
+            ),
+            const SizedBox(height: 20),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          generateTextField();
+        },
+        tooltip: 'Add Task',
+        child: const Icon(Icons.add),
+      ),
     );
   }
 

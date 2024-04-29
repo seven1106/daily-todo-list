@@ -7,7 +7,6 @@ class DayModel extends Equatable {
   final List<String> noteListId;
   bool? isDone;
   final DateTime createdAt;
-
   DayModel({
     required this.id,
     required this.todoList,

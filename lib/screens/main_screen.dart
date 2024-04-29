@@ -1,10 +1,9 @@
 import 'package:daily_todo_list/models/day.dart';
 import 'package:daily_todo_list/screens/create_new_todo_list.dart';
 import 'package:daily_todo_list/screens/main_drawer.dart';
-import 'package:daily_todo_list/widgets/gradient_btn.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
+import 'package:lottie/lottie.dart';
 import '../blocs/bloc_exports.dart';
 import '../blocs/day_bloc/day_bloc.dart';
 import '../core/constants/constants.dart';
@@ -50,23 +49,10 @@ class MainScreen extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset(Constants.lotusPath,
-                            width: 200, height: 200, fit: BoxFit.fill),
+                        Lottie.asset(Constants.yogaPath, width: 300, height: 300),
                         const Text(
-                          'WELCOME',
-                          style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-                        ),
-                        const Text(
-                          'Do meditation. Stay focused. Live a healthy life.',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 30),
-                        ),
-                        const SizedBox(height: 20),
-                        GradientBtn(
-                          buttonText: 'Add new to-do list for today!',
-                          onPressed: () {
-                            _navigateToCreateToDo(context);
-                          },
+                          'Your Keep Will Appear Here',
+                          style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
@@ -88,15 +74,13 @@ class MainScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-          floatingActionButton: daysList.isNotEmpty
-              ? FloatingActionButton(
+          floatingActionButton: FloatingActionButton(
                   onPressed: () {
                     _navigateToCreateToDo(context);
                   },
                   tooltip: 'Add Task',
                   child: const Icon(Icons.add),
-                )
-              : null,
+                ),
         );
       },
     );

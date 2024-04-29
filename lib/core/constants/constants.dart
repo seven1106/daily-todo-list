@@ -6,5 +6,7 @@ class Constants {
 static const leafDecorPath = "assets/images/leaf_decor.png";
 static const menuPath = "assets/images/menu.svg";
 static const lotusPath = "assets/images/lotus_logo.png";
+static const welcomeLottiePath = "assets/animation/cat.json";
+static const yogaPath = "assets/animation/yoga_style.json";
 
 }

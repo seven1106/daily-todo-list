@@ -43,6 +43,7 @@ dependencies:
   table_calendar: ^3.1.1
   fpdart: ^1.1.0
   intl: ^0.19.0
+  lottie: ^3.1.0
 
 dev_dependencies:
   flutter_test:
@@ -102,6 +103,8 @@ flutter:
     - pubspec.yaml
     - assets/images/
     - assets/fonts/Alegreya_Sans/
+    - assets/animation/cat.json
+    - assets/animation/
   fonts:
     - family: AlegreyaSans
       fonts:

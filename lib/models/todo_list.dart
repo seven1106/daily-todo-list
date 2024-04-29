@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 
 class ToDoListModel extends Equatable {
   final String title;
+  final String note;
   final String id;
   final List<TaskModel> tasks;
 
@@ -20,6 +21,7 @@ class ToDoListModel extends Equatable {
 
   ToDoListModel({
     required this.title,
+    required this.note,
     required this.id,
     required this.tasks,
     this.isDone,
@@ -31,6 +33,7 @@ class ToDoListModel extends Equatable {
 
   ToDoListModel copyWith({
     String? title,
+    String? note,
     String? id,
     List<TaskModel>? tasks,
     bool? isDone,
@@ -38,6 +41,7 @@ class ToDoListModel extends Equatable {
   }) {
     return ToDoListModel(
       title: title ?? this.title,
+      note: note ?? this.note,
       id: id ?? this.id,
       tasks: tasks ?? this.tasks,
       isDone: isDone ?? this.isDone,
@@ -48,6 +52,7 @@ class ToDoListModel extends Equatable {
   Map<String, dynamic> toMap() {
     return {
       'title': title,
+      'note': note,
       'id': id,
       'tasks': tasks,
       'isDone': isDone,
@@ -58,6 +63,7 @@ class ToDoListModel extends Equatable {
   factory ToDoListModel.fromMap(Map<String, dynamic> map) {
     return ToDoListModel(
       title: map['title'] as String,
+      note: map['note'] as String,
       id: map['id'] as String,
       tasks: map['tasks'] as List<TaskModel>,
       isDone: map['isDone'] as bool,
@@ -69,6 +75,7 @@ class ToDoListModel extends Equatable {
     return {
       'id': id,
       'title': title,
+      'note': note,
       'tasks': tasks.map((task) => task.toJson()).toList(),
     };
   }
